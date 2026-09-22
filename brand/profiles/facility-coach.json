@@ -1,0 +1,61 @@
+{
+ "brand": "Facility Coach",
+ "_source": "Brand guide supplied by Collier 2026-08-26. SUPERSEDES the gold/Bebas palette in references/fc-master-reference.md \u2014 that file is the OLD brand.",
+ "type": {
+  "family": "Poppins",
+  "_rule": "'Poppins everywhere, nothing else' applies to BRAND DOCUMENTS/logos - NOT captions. Collier explicitly wants the full caption library available.",
+  "display": "Poppins 800",
+  "heading": "Poppins 700",
+  "body": "Poppins 300"
+ },
+ "core_colors": {
+  "navy": "#101726",
+  "ice": "#4CC8F0",
+  "white": "#FFFFFF",
+  "yellow": "#FFD400",
+  "deep_ice": "#0E7CA0",
+  "ink": "#16171C"
+ },
+ "supporting_colors": {
+  "surface": "#19222F",
+  "surface2": "#212B3A",
+  "border": "#26313F",
+  "muted": "#8A90A8",
+  "bone": "#FBFAF7",
+  "hairline": "#E4E6EC",
+  "slate": "#5A5F76",
+  "green": "#3FD07A",
+  "red": "#F1283A"
+ },
+ "lockups": {
+  "horizontal": "FC | FACILITY COACH / PROFIT FIRST OPERATING SYSTEM",
+  "stacked": "FC / FACILITY COACH / facility-coach.com"
+ },
+ "caption_presets": {
+  "on_new_brand": [
+   "fc-yellow",
+   "fc-ice",
+   "fc-white",
+   "fc-yellowbox",
+   "fc-icebox",
+   "fc-navybox"
+  ],
+  "kept_from_references": [
+   "fc-bebas-gold",
+   "fc-bebas-ice",
+   "fc-bebas-white",
+   "fc-montserrat-gold",
+   "fc-montserrat-white",
+   "fc-goldbox",
+   "fc-whitebox"
+  ]
+ },
+ "default_caption_preset": "fc-yellow",
+ "logo": "brand/logos/ - awaiting new files from Collier. Old-brand logos parked in brand/logos/_old-brand/.",
+ "music": {
+  "enabled": false,
+  "_note": "No music bed - voice only (Collier, 2026-08-26).",
+  "_how_to_change": "Drop royalty-free tracks in brand/music/, set enabled=true, and re-render. Adding music is a re-render, not a rebuild."
+ },
+ "_caption_note": "Collier directs the look PER CLIP. No single locked default - ask, or pick from footage."
+}

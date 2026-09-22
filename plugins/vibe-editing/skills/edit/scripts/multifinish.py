@@ -28,6 +28,7 @@ passes this for multi-segment clips (called with t0=0) so dual-color stays right
 seam, where the single-offset t0->wav mapping can't. Absent → speaker color comes from clean.json."""
 # ── vibe-editing portable path bootstrap (auto-inserted) ──
 import os as _os, sys as _sys
+import pathlib as _pl
 def _acq_root():
     r = _os.environ.get("VIBE_PIPELINE_ROOT") or _os.environ.get("CLAUDE_PLUGIN_ROOT")
     if r and _os.path.isdir(_os.path.join(r, ".claude-plugin")):

@@ -1,0 +1,32 @@
+{
+ "brand": "Collier Buttgen",
+ "_concept": "The 'quiet twin' of Facility Coach \u2014 chosen by Collier 2026-08-26. Same Poppins type system, ZERO accent colour. Reads as the person behind the company: obviously related, deliberately quieter. Face and delivery carry the clip, not colour.",
+ "type": {
+  "family": "Poppins",
+  "display": "Poppins 800",
+  "heading": "Poppins 700",
+  "body": "Poppins 300"
+ },
+ "colors": {
+  "text": "#FFFFFF",
+  "ink": "#16171C",
+  "_rule": "No accent colour. Do NOT introduce ice, yellow or gold into Collier captions \u2014 that is Facility Coach's language."
+ },
+ "caption_presets": [
+  "collier-clean",
+  "collier-whitebox",
+  "collier-inkbox"
+ ],
+ "default_caption_preset": "collier-clean",
+ "emphasis_rule": "WEIGHT only (Poppins Bold -> ExtraBold -> Black) plus size on single-word cues. A second voice / quoted objection is marked with italic + quotes, never colour.",
+ "end_card": "Typeset name only \u2014 COLLIER BUTTGEN in Poppins 800 on ink #16171C. No logo (none exists yet).",
+ "assets": {
+  "headshot": "brand/logos/collier-headshot.jpg",
+  "logo": null
+ },
+ "music": {
+  "enabled": false,
+  "_note": "No music bed - voice only (Collier, 2026-08-26).",
+  "_how_to_change": "Drop royalty-free tracks in brand/music/, set enabled=true, and re-render. Adding music is a re-render, not a rebuild."
+ }
+}

@@ -1,0 +1,333 @@
+{
+ "F1_youth-pastor": {
+  "kind": "face",
+  "parts": [
+   [
+    418,
+    "But the whole way",
+    492,
+    "training full-time."
+   ]
+  ]
+ },
+ "F2_significant": {
+  "kind": "face",
+  "parts": [
+   [
+    625,
+    "And my job is",
+    650,
+    "really live."
+   ]
+  ]
+ },
+ "F3_the-bridge": {
+  "kind": "face",
+  "parts": [
+   [
+    654,
+    "I do not believe",
+    686,
+    "other side."
+   ],
+   [
+    707,
+    "there's this little",
+    714,
+    "with you."
+   ]
+  ]
+ },
+ "F4_ten-years-ahead": {
+  "kind": "face",
+  "parts": [
+   [
+    4402,
+    "And what I think",
+    4413,
+    "ahead of us."
+   ],
+   [
+    4432,
+    "we are just behind",
+    4437,
+    "making a change"
+   ]
+  ]
+ },
+ "F5_at-the-expense": {
+  "kind": "face",
+  "parts": [
+   [
+    5409,
+    "I do not want to grow",
+    5460,
+    "isn't all that."
+   ],
+   [
+    5530,
+    "the income that",
+    5536,
+    "that you produce"
+   ]
+  ]
+ },
+ "F6_end-in-mind": {
+  "kind": "face",
+  "parts": [
+   [
+    5001,
+    "kids are paying",
+    5008,
+    "your time."
+   ],
+   [
+    5041,
+    "when you're starting a business",
+    5066,
+    "got into coaching"
+   ]
+  ]
+ },
+ "F8_one-offer-paths": {
+  "kind": "face",
+  "parts": [
+   [
+    3950,
+    "So there's one offer,",
+    3986,
+    "levels of access."
+   ]
+  ]
+ },
+ "S01_cost-of-impact": {
+  "kind": "split",
+  "parts": [
+   [
+    756,
+    "You guys all got",
+    780,
+    "miserable life."
+   ]
+  ]
+ },
+ "S02_5k-system": {
+  "kind": "split",
+  "parts": [
+   [
+    942,
+    "The truth I see",
+    958,
+    "run a business."
+   ],
+   [
+    966,
+    "The model that everybody",
+    984,
+    "word of mouth"
+   ],
+   [
+    985,
+    "But then what",
+    999,
+    "nights and weekends."
+   ]
+  ]
+ },
+ "S03_its-the-offer": {
+  "kind": "split",
+  "parts": [
+   [
+    1042,
+    "I fully believe",
+    1083,
+    "without a website."
+   ]
+  ]
+ },
+ "S04_donut": {
+  "kind": "split",
+  "parts": [
+   [
+    1122,
+    "What many of us do",
+    1152,
+    "like a donut."
+   ]
+  ]
+ },
+ "S05_breaks-faster": {
+  "kind": "split",
+  "parts": [
+   [
+    1179,
+    "Because if you add",
+    1185,
+    "personal experience."
+   ],
+   [
+    1194,
+    "And you know what happened?",
+    1205,
+    "one-on-one time."
+   ],
+   [
+    1210,
+    "And you know what happened?",
+    1251,
+    "prove my worth"
+   ]
+  ]
+ },
+ "S06_freedom-number": {
+  "kind": "split",
+  "parts": [
+   [
+    1313,
+    "The freedom number",
+    1334,
+    "drawdown rate."
+   ],
+   [
+    1347,
+    "There's a better path",
+    1376,
+    "being there."
+   ]
+  ]
+ },
+ "S07_owner-vs-coach": {
+  "kind": "split",
+  "parts": [
+   [
+    1773,
+    "A lot of coaches",
+    1797,
+    "your own company"
+   ],
+   [
+    1805,
+    "you as a coach",
+    1812,
+    "of your company."
+   ]
+  ]
+ },
+ "S08_selfish": {
+  "kind": "split",
+  "parts": [
+   [
+    1921,
+    "And it comes down",
+    1960,
+    "not the man."
+   ]
+  ]
+ },
+ "S09_four-week-billing": {
+  "kind": "split",
+  "parts": [
+   [
+    2214,
+    "The reason why you do four-week",
+    2237,
+    "really change."
+   ]
+  ]
+ },
+ "S10_proteus": {
+  "kind": "split",
+  "parts": [
+   [
+    2242,
+    "You do not need",
+    2288,
+    "dollars better."
+   ]
+  ]
+ },
+ "S11_choice-paralysis": {
+  "kind": "split",
+  "parts": [
+   [
+    2350,
+    "When we give too many",
+    2376,
+    "on the planet."
+   ],
+   [
+    2418,
+    "And you have no forecasting.",
+    2433,
+    "kind of dumb."
+   ]
+  ]
+ },
+ "S12_four-ways": {
+  "kind": "split",
+  "parts": [
+   [
+    2578,
+    "traffic is what",
+    2594,
+    "one path."
+   ],
+   [
+    2627,
+    "Just like I am",
+    2632,
+    "for your clients."
+   ]
+  ]
+ },
+ "S13_five-families": {
+  "kind": "split",
+  "parts": [
+   [
+    2757,
+    "Some of you have",
+    2771,
+    "going to leave."
+   ],
+   [
+    2854,
+    "if you change",
+    2867,
+    "wrong number"
+   ]
+  ]
+ },
+ "S14_standard-in-head": {
+  "kind": "split",
+  "parts": [
+   [
+    3128,
+    "when you guys are looking",
+    3168,
+    "healthy business."
+   ]
+  ]
+ },
+ "S15_bottleneck": {
+  "kind": "split",
+  "parts": [
+   [
+    3403,
+    "right now you are",
+    3440,
+    "walk you through."
+   ]
+  ]
+ },
+ "S16_five-minute-rule": {
+  "kind": "split",
+  "parts": [
+   [
+    3709,
+    "And if there's one thing",
+    3735,
+    "contact them."
+   ]
+  ]
+ }
+}

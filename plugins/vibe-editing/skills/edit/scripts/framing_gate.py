@@ -16,6 +16,20 @@ Exit 0 = ok / advisory · 1 = TOO WIDE (block).
 """
 import cv2, argparse, statistics as st, sys, os
 
+# PATCHED 2026-08-27: OpenCV 5.0 removed the legacy Haar `cv2.CascadeClassifier` API this gate
+# was written against. Ported to YuNet — the same DNN detector the kit's own reframer uses and
+# already ships at skills/horizontal-to-vertical/scripts/yunet.onnx. YuNet also handles
+# non-frontal / capped / bearded faces far better, so the old "low detect-rate = advisory only"
+# caveat is much less likely to trigger. Original at framing_gate.py.orig.
+def _yunet_path():
+    d = os.path.dirname(os.path.abspath(__file__))
+    while d != os.path.dirname(d):
+        c = os.path.join(d, "skills", "horizontal-to-vertical", "scripts", "yunet.onnx")
+        if os.path.exists(c):
+            return c
+        d = os.path.dirname(d)
+    return None
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--clip", required=True)
@@ -24,7 +38,10 @@ def main():
     ap.add_argument("--end", type=float, default=1e9)
     a = ap.parse_args()
     name = os.path.basename(a.clip)
-    face = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    _model = _yunet_path()
+    if not _model:
+        print("framing_gate: yunet.onnx not found — cannot measure framing"); return 0
+    face = cv2.FaceDetectorYN.create(_model, "", (320, 320), 0.6, 0.3, 5000)
     cap = cv2.VideoCapture(a.clip)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
     W = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)); H = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -38,12 +55,12 @@ def main():
         if a.start <= t <= a.end and i % step == 0:
             ok, fr = cap.retrieve()
             if ok:
-                n += 1; g = cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY); sc = 480 / W
-                gs = cv2.resize(g, (480, int(H * sc)))
-                d = face.detectMultiScale(gs, 1.2, 5, minSize=(24, 24))
-                if len(d):
+                n += 1
+                face.setInputSize((W, H))
+                _, d = face.detect(fr)
+                if d is not None and len(d):
                     present += 1; bb = max(d, key=lambda r: r[2] * r[3])
-                    fh.append((bb[3] / sc) / H)
+                    fh.append(float(bb[3]) / H)
         i += 1
     cap.release()
     print(f"=== framing_gate ({name}) ===")

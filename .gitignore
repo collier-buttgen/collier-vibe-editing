@@ -10,3 +10,13 @@ out/
 __pycache__/
 *.pyc
 .DS_Store
+
+# API keys — never commit
+plugins/vibe-editing/config/keys.env
+
+# Footage, projects and renders stay on the machine (big, and include client calls)
+00_INBOX/*
+!00_INBOX/README.txt
+projects/
+*.orig
+*.bak

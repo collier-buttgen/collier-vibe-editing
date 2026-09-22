@@ -1,0 +1,108 @@
+{
+ "name": "fc-montserrat-white",
+ "_what": "Montserrat ladder, ALL WHITE.",
+ "video": {
+  "width": 2160,
+  "height": 3840
+ },
+ "fonts_dir": "fonts/_all",
+ "weights": {
+  "mute": "Montserrat Medium",
+  "base": "Montserrat Medium",
+  "soft": "Montserrat Medium",
+  "strong": "Montserrat Bold",
+  "emphasis": "Montserrat ExtraBold",
+  "payoff": "Montserrat Black"
+ },
+ "default_weight": "base",
+ "_fontsize_note": "LOCKED 2026-06-10 (Operator): 150px at 4K (2160 wide). (250 was WAY too big \u2014 Operator; the one the reference editor frame that looked larger was an outlier, don't size off a single frame.)",
+ "font_size_px": 150,
+ "_size_note": "SIZE axis measured from the reference editor's 19 clips (1271 captions): ~27% bumped above base; among bumps p50~1.28 / p75~1.36 / p90~1.60 / peak~1.8-2.0. base=100; emph=125 (light, the common bump); strong=150; peak=185 (rare payoff word/line). Triggers: numbers/money, the payoff/punchline, key/identity & proper nouns, vivid words. Rendered via \\fscx/\\fscy on the word \u2014 INDEPENDENT of color/weight/italic, they STACK (e.g. $100M = yellow + extrabold + peak). HARD RULE (user 2026-06-03): a size bump may ONLY land on a SINGLE-WORD caption \u2014 generate_spice gates size on len(chunk)==1; multi-word lines emphasize via WEIGHT only (mixed sizes read broken / can wrap to two lines). To bump a specific word, the director isolates it into its own caption.",
+ "_size_correction_2026-06-11": "SIZE AXIS ON, but SUBTLE (Operator 2026-06-11): a size bump is a 10-15% increase, NOT 25-80%. The big tiers (125/150/180) pushed lines off-screen \u2014 'be at $10M minimum' at 150% = 99% of frame width, out of the UI safe zone. New tiers: emph 110 / strong 115 / peak 120 (the rare single-word punch). RULES: (1) size is decided PER CUE \u2014 single-word caption OR the whole line uniformly, NEVER one word inside a multi-word line (looks broken; generate_spice enforces). (2) A SAFE-ZONE CAP in generate_spice measures each bumped line (PIL) and reduces the bump so the rendered width never exceeds ~82% of frame \u2014 captions can't run off-screen or out of the UI regardless of word count. Size stacks with weight + italic.",
+ "sizes": {
+  "base": 100,
+  "emph": 100,
+  "strong": 100,
+  "peak": 100
+ },
+ "auto_size": {},
+ "_italic_note": "Gentle x-shear (\\fax) instead of synthetic oblique (\\i1). -0.12 ~= 7deg forward/RIGHT (positive fax leans LEFT/backslant in libass); \\i1 ~= 12deg read too leaned (user 2026-06-03). True italic .otf files are also in fonts_dir if real italic letterforms are ever wanted.",
+ "italic_fax": -0.12,
+ "_color_note": "COLOR = whose voice. White = Speaker's own voice. Yellow = a different voice (live Q&A guest, or Speaker impersonating a customer/objection). Drive via the style stream's per-word 'c' or top-level voice_spans.",
+ "colors": {
+  "speaker": "FFFFFF",
+  "accent": "FFFFFF",
+  "guest": "FFFFFF"
+ },
+ "default_voice": "speaker",
+ "number_color": null,
+ "_layout_note": "y 50% = mid-frame, DATA-DRIVEN (2026-06-10): measured across the reference editor's 24 workshop Q&A clips (599 shots, training/height_study) \u2014 his overall median caption-Y is ~49.7%, his dominant medium/closeup tight-shot anchor is ~50%, and he NEVER goes below ~50%. (Old 55 sat too low.) This static default is for renders with NO layout track; when a layout track IS present (caption-app, and /edit which now runs layout_analyze on its reframed output), each shot's Y is per-angle: WIDE 45% / TIGHT 50%. Chunk caps LOCKED: <=18 displayed chars AND <=3 words, hard-broken at every sentence (.?!) and clause (,). For 1080x1920 set video 1080x1920 and font_size_px ~75.",
+ "layout": {
+  "y_percent_from_top": 50,
+  "max_chars_per_line": 18,
+  "max_words_per_screen": 3
+ },
+ "_shadow_note": "Premiere Drop Shadow \u2014 LOCKED 2026-06-10, built from the reference editor's actual preset SLIDERS (Operator screenshot) + picked by Operator on his own clip. TWO layers, each = Opacity/Angle/Distance/Size/Blur. The decode lesson: the preset's two shadows are (1) Opacity100 Angle130 Distance20 Size15 BLUR110, (2) Opacity70 Angle135 Distance7 Size33.9 BLUR250 \u2014 the BLUR is HUGE (110/250), which is why a tight low-blur shadow looked like a 'stroke'. Mapped to gblur @FS150: ambient layer (premiere_*) = big soft halo \u03c375/border20(Size)/0.70 op, small offset (6,8); directional layer (premiere_*2) = \u03c333/border9(Size)/1.0 op with a real DOWN-RIGHT offset (18,22) \u2014 Operator: 'more X and Y offset to the right and down'. border here encodes Premiere 'Size'(spread); offset encodes Distance@Angle (down-right). All FONT-RELATIVE (FS_REF=150). premiere_blur->gblur sigma \u2248 blur\u00d70.3 (the conversion that matched).",
+ "shadow": {
+  "enabled": true,
+  "mode": "premiere",
+  "premiere_layer2": true,
+  "offset_x": 3,
+  "premiere_offset_y": 4,
+  "premiere_sigma": 48,
+  "premiere_border": 13,
+  "premiere_intensity": 0.7,
+  "offset_x2": 7,
+  "premiere_offset_y2": 11,
+  "premiere_sigma2": 20,
+  "premiere_border2": 6,
+  "premiere_intensity2": 1.0,
+  "premiere_stroke_px": 0,
+  "premiere_blur": 22,
+  "premiere_spread": 35,
+  "premiere_opacity": 0.28,
+  "color": "000000",
+  "stroke_px": 6,
+  "stroke_color": "000000",
+  "alpha": 0,
+  "offset_y": 16,
+  "blur": 18,
+  "_locked": "SHADOW LOCKED 2026-06-11 (Operator: 'we finally figured out a shadow, lock it in everywhere'): two-layer gblur Premiere drop shadow, TIGHTENED softness/size \u2014 sigma 48/20, border(spread) 13/6 (was 75/33, 20/9 \u2014 the dark halo hugs the letters, more defined, less diffuse), opacity UNCHANGED (intensity 0.70/1.0), down-right offset. Values are FONT-RELATIVE (scaled by FS/150 in generate_spice) so 4K and 1080 render identically. This is THE default shadow for every footage type. Approved on _guest_1080_shadowtight.mp4."
+ },
+ "animation": {
+  "_note": "Speaker Shorts 'Text Down Small': drop ~16px from above over 500ms + fade 90%->100% over 83ms. (16px at 4K ~= 8px at 1080.)",
+  "position_drop_px": 0,
+  "position_drop_duration_ms": 500,
+  "opacity_from": 0.9,
+  "opacity_fade_duration_ms": 83,
+  "_no_bounce": "Drop-in disabled 2026-09-09 at Collier's request \u2014 captions must not bounce. Opacity fade retained; each cue now appears in place."
+ },
+ "timing": {
+  "_note": "onset_correct = hold a caption through a pause Groq folded into the next FUNCTION word (fixes the 'irrelevant flashes then because shows during the silence' bug). min_cue_dur = no caption may flash shorter than this; zero-gap = each cue ends exactly when the next begins.",
+  "onset_correct": true,
+  "min_cue_dur": 0.4
+ },
+ "auto_emphasis": {
+  "_note": "Light DEFAULT styling when no per-word style stream is supplied, so solo clips are reasonable without the director. The director (style JSON) overrides this entirely.",
+  "numbers": "emphasis",
+  "words_strong": [
+   "never",
+   "always",
+   "every",
+   "only",
+   "most",
+   "best",
+   "worst",
+   "nothing",
+   "everything",
+   "exactly",
+   "real",
+   "truth",
+   "proof",
+   "key",
+   "secret"
+  ]
+ },
+ "_brand": "Caption style library \u2014 Collier, 2026-08-26. Shadow/timing/layout are kit defaults.",
+ "_no_size_pop": "Size axis flattened to 100 on 2026-09-09. A cue rendering at 110-120% next to one at 100% pops on a centre-anchored caption and reads as bounce, which Collier flagged. Emphasis now comes from WEIGHT and COLOUR only. Restore the tiers in 'sizes' if he ever wants the size dial back."
+}

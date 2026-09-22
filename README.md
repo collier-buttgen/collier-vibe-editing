@@ -1,3 +1,11 @@
+# Collier's Vibe Editing
+
+Facility Coach + Collier Buttgen editing system, built on the Vibe Editing kit (MIT).
+**New Mac? Read `NEW-MAC.md`.** Standards Claude must follow: `HOUSE-RULES.md`.
+Proven pipelines from real jobs: `recipes/`.
+
+---
+
 # Vibe Editing — starter kit
 
 **Raw footage in → finished, captioned, self-audited vertical clips out, with one command.**

@@ -5,6 +5,7 @@ transcript near near_t0, then multicut + multifinish → 20_DELIVER. Editorial p
 so the boundaries are exactly the strong hook and the clean payoff (the method that nailed CleanYourSocials)."""
 # ── vibe-editing portable path bootstrap (auto-inserted) ──
 import os as _os, sys as _sys
+import pathlib as _pl
 def _acq_root():
     r = _os.environ.get("VIBE_PIPELINE_ROOT") or _os.environ.get("CLAUDE_PLUGIN_ROOT")
     if r and _os.path.isdir(_os.path.join(r, ".claude-plugin")):

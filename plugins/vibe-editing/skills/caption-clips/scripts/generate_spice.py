@@ -31,6 +31,7 @@ Style-stream JSON (all keys optional):
 """
 # ── vibe-editing portable path bootstrap (auto-inserted) ──
 import os as _os, sys as _sys
+import pathlib as _pl
 def _acq_root():
     r = _os.environ.get("VIBE_PIPELINE_ROOT") or _os.environ.get("CLAUDE_PLUGIN_ROOT")
     if r and _os.path.isdir(_os.path.join(r, ".claude-plugin")):
@@ -121,19 +122,84 @@ def is_number(token: str) -> bool:
 
 
 _FONT_CACHE = {}
-def line_width_px(text: str, px: int) -> int:
-    """Rendered width of `text` at `px` using Montserrat Bold (the widest common weight — a
-    conservative estimate so the safe-zone cap never under-shrinks). Falls back to a char-advance
-    estimate if PIL/the font isn't available."""
+# PATCHED 2026-08-27: box geometry must measure in the PRESET'S OWN font.
+# line_width_px() deliberately measures in Montserrat-ExtraBold (the widest common weight) so the
+# SAFE-ZONE CAP never under-shrinks — correct for that job. But the caption `bubble` reused the same
+# number to size a box that is supposed to HUG the text. With a narrower family (e.g. Poppins
+# SemiBold) that over-estimates ~1.2x, so the box rendered far wider than the words and, once the
+# over-estimate tripped the 0.86*W safe clamp, the box stopped tracking the text's centre entirely.
+# Fix: an optional font_path. The safe-zone cap keeps its conservative Montserrat measure; the
+# bubble passes the preset's real base face. Original at generate_spice.py.orig.
+BOX_FONT_PATH = None
+_EM_SCALE_CACHE = {}
+
+def libass_em_scale(font_path):
+    """Convert an ASS Fontsize into the equivalent PIL pixel size for the same face.
+
+    libass sizes a font so that OS/2 usWinAscent+usWinDescent == Fontsize, whereas PIL's
+    truetype(size=N) sets the EM to N. For Poppins SemiBold that is a 1.76x difference, which is
+    why a box measured with PIL came out ~67% wider than the words libass actually drew.
+    Verified 2026-08-27 by burning captions onto a black plate: libass drew 524px, usWin predicted
+    528px (0.8% off); the em/hhea-based guesses were 664-930px."""
+    if not font_path:
+        return 1.0
+    k = _EM_SCALE_CACHE.get(font_path)
+    if k is None:
+        k = 1.0
+        try:
+            from fontTools.ttLib import TTFont
+            f = TTFont(font_path, fontNumber=0, lazy=True)
+            upem = f["head"].unitsPerEm
+            o = f["OS/2"]
+            win = o.usWinAscent + o.usWinDescent
+            f.close()
+            if upem and win:
+                k = upem / win
+        except Exception:
+            pass
+        _EM_SCALE_CACHE[font_path] = k
+    return k
+
+def line_width_px(text: str, px: int, font_path=None) -> int:
+    """Rendered width of `text` at `px`. Defaults to Montserrat ExtraBold (widest common weight — a
+    conservative estimate so the safe-zone cap never under-shrinks). Pass `font_path` to measure in a
+    specific face instead (used by the bubble, which must match what libass actually draws)."""
     try:
         from PIL import ImageFont
-        f = _FONT_CACHE.get(px)
+        key = (px, str(font_path) if font_path else None)
+        f = _FONT_CACHE.get(key)
         if f is None:
-            f = ImageFont.truetype(str(SKILL / "fonts" / "free_font" / "Montserrat-ExtraBold.otf"), px)
-            _FONT_CACHE[px] = f
+            src = font_path or (SKILL / "fonts" / "free_font" / "Montserrat-ExtraBold.otf")
+            size = px
+            if font_path:                      # measure what libass will really draw
+                size = max(1, int(round(px * libass_em_scale(str(font_path)))))
+            f = ImageFont.truetype(str(src), size)
+            _FONT_CACHE[key] = f
         return f.getbbox(text)[2]
     except Exception:
         return int(len(text) * px * 0.52)
+
+
+def resolve_face(fonts_dir, family_name):
+    """Find the font FILE whose family+style matches an libass name like 'Poppins SemiBold'."""
+    try:
+        from PIL import ImageFont
+        import os
+        want = " ".join(str(family_name).split()).lower()
+        for fn in sorted(os.listdir(fonts_dir)):
+            if not fn.lower().endswith((".ttf", ".otf")):
+                continue
+            fp = os.path.join(fonts_dir, fn)
+            try:
+                fam, sty = ImageFont.truetype(fp, 20).getname()
+            except Exception:
+                continue
+            full = " ".join(f"{fam} {sty}".split()).lower()
+            if full == want or (sty.lower() in ("regular", "book") and fam.lower() == want):
+                return fp
+    except Exception:
+        pass
+    return None
 
 
 def main() -> int:
@@ -462,6 +528,15 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     # --- caption bubble (Brand testimonial style): translucent rounded bg behind each cue ---
     # Gated on preset["bubble"]; absent => no change to any other brand's spice render.
     BUB = P.get("bubble")
+    # PATCHED 2026-08-27: point the box measurer at the preset's real base face so the bubble
+    # hugs the text instead of a Montserrat-ExtraBold over-estimate.
+    if BUB:
+        global BOX_FONT_PATH
+        _base_family = weights.get(default_weight) or weights.get("base")
+        _fdir = str((SKILL / P["fonts_dir"]).resolve())
+        BOX_FONT_PATH = resolve_face(_fdir, _base_family)
+        print(f"bubble metrics: measuring in {_base_family!r} -> "
+              f"{BOX_FONT_PATH or 'NOT FOUND (falling back to Montserrat estimate)'}")
     def _rrect(w, h, r):
         # top-left-anchored rounded rect (0,0)->(w,h); emitted with \an7 + offset \pos so it
         # centers under the cue. (\an5 mis-anchors \p1 drawings in libass -> shifted left.)
@@ -533,7 +608,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         if BUB:
             _px = max(1, int(FS * cue_sz / 100))
             _ct = " ".join(disp(words[i]["word"]) for i in ch)
-            _tw = line_width_px(_ct, _px)
+            _tw = line_width_px(_ct, _px, BOX_FONT_PATH)
             _safe = 0.86 * W
             _nl = max(1, -(-int(_tw) // int(_safe)))      # ceil -> line count if it wraps
             _lw = min(float(_tw), _safe)

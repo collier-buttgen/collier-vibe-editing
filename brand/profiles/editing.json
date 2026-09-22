@@ -1,0 +1,46 @@
+{
+ "_what": "Collier's editing preferences, 2026-08-26. Applies to BOTH brands unless noted.",
+ "source_material": {
+  "types": [
+   "coaching sessions",
+   "teaching sessions",
+   "live streams",
+   "YouTube videos"
+  ],
+  "_implication": "Sprawling, long, and repetitive by nature \u2014 the same point often gets made in two or three places. This is exactly the material `multi_topic_merge` (structure lift 2.99, the highest available) is for. Actively weld the best statements of one idea into a single arc; do NOT default to front_trim."
+ },
+ "cut_tightness": {
+  "jumpcut_max_pause": 0.15,
+  "_note": "KIT DEFAULT \u2014 Collier chose to keep it (2026-08-26) after being offered 0.35.",
+  "_word_safety": "Words are safe at any setting: jumpcut.py removes time from the MIDDLE of a confirmed silence and keeps max_pause/2 of real silence on each side, so the previous word's tail and the next word's onset are never touched.",
+  "noise_threshold": "-30dB",
+  "min_detect": 0.18,
+  "_if_too_snappy": "If a real clip flattens a grammatical beat or a pause before a punchline, raise --max-pause toward 0.30. Judge it on actual footage, not in the abstract."
+ },
+ "captions": {
+  "size": "kit default (150px at 4K / 75px at 1080) \u2014 Collier: 'base captions are good to start'",
+  "position": "kit default y=50% of frame height (above the platform UI)",
+  "manual_placement": "REQUESTED \u2014 Collier wants to drag caption position before the burn. See tools/caption_place.py.",
+  "_note": "Do not change size or position defaults without asking; he explicitly approved the base."
+ },
+ "clip_length": {
+  "mode": "arc_decides",
+  "_note": "No target duration. Length is whatever the complete arc needs \u2014 hook, build, payoff. Never pad to hit a number, never truncate a landing to stay short."
+ },
+ "banned": {
+  "words": [],
+  "never_publish": [
+   "Collier's own salary from Facility Coach ($100k) and FC's net margin \u2014 kept off at his direction 2026-09-09",
+   "FC's own ad performance figures (ROAS, spend) \u2014 treat as internal",
+   "Any client's or member's name, revenue, or price points \u2014 their business, not FC's to post",
+   "Collier's personal cell number \u2014 spoken aloud in several recordings"
+  ],
+  "_note": "Standing selector bans still apply: no opening on a literal question (0.18), no ending before the explanation (0.35), no motivational framing without a mechanism."
+ },
+ "clip_gating": {
+  "rule": "Collier's FACE and Collier's VOICE, both. A moment where he is speaking but Zoom shows someone else does NOT qualify.",
+  "method": "SFace recognition against collier_ref.npy. Threshold 0.363. Verify the RENDERED clip frame-by-frame with tools/verify \u2014 sampled scans of the source miss switches.",
+  "_why": "On 2026-09-09 an 8s-sampled scan passed two clips that contained the prospect; frame-level verification of the render caught both."
+ },
+ "zoom_source_note": "Active-speaker recordings cut away every 3-10s and often land on the prospect mid-payoff. Ask Collier to enable Zoom's 'Record a separate audio/video file for each participant' \u2014 he agreed to this 2026-09-09."
+}

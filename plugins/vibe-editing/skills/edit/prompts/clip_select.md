@@ -80,3 +80,62 @@ abstract "why"/justification · weak second example · CTA/outro · empty name-d
 Return up to the requested number of candidates, best first. Honesty over optimism: if a moment
 can only honestly open on a question or only end before an explanation, tag it truthfully — the
 scorer will rank it down, which is correct.
+
+---
+
+# BRAND OVERLAY — Collier Buttgen / Facility Coach  (2026-08-26)
+
+Applies to BOTH brands. Does NOT replace the lift table above — it adds the `contrarian`
+open_type, which the prose above omits but `config/clip_lift.json` scores.
+
+## OPEN: contrarian is the TOP opener — lift 3.99
+`contrarian` (lift **3.99**) beats every opener listed above, including `cut_to_payoff` (1.68).
+It is ~4x the base win-rate. Collier's voice is direct and confrontational — no softening, no
+motivation, structure and execution only — so this is both the highest-scoring AND the on-brand
+choice. When a moment kills a commonly-held belief, tag it `contrarian` and rank it UP hard.
+
+**What counts as contrarian:** the claim NAMES the belief it is destroying.
+  YES — "Most owners think raising prices loses members. It's backwards."
+  YES — "Everyone tells you to add more programs. That's what's killing your margin."
+  NO  — "Pricing is really important." (that's a `principle`, lift 1.0)
+  NO  — "Here's my take on pricing." (that's `bold_claim`, lift 0.96 — merely average)
+The difference between 3.99 and 0.96 is whether the opposing belief is stated out loud.
+If the speaker only asserts, it is `bold_claim`. If he asserts AND names what he's contradicting,
+it is `contrarian`. Tag honestly — do not inflate a bold_claim into a contrarian.
+
+Contrarian + a number, or + a named consequence, is the strongest possible open. But contrarian
+ALONE already earns the top rank — it does not need to be paired to qualify.
+
+## STRUCTURE: don't overlook multi_topic_merge (2.99)
+Highest-lift structure by far, ahead of `front_trim` (1.48). Collier's sources are coaching
+sessions, teaching sessions, live streams and long YouTube videos — sprawling material where
+the same point gets made in two or three places. WELDING those into one tight arc is the
+single biggest structural edge available. Actively look for it; don't default to front_trim.
+
+## TOPIC lift — read this before ranking a Facility Coach clip
+These are GENERAL short-form priors, not retrained on Collier's clips, so treat them as a tilt
+and not gospel. But the tilt is stark and runs AGAINST the obvious facility-owner subject matter:
+  Storytelling 2.66 · Health_Fitness 1.75 · Pricing 1.47 · Mindset 1.10 · Wealth 1.07
+  Sales 0.77 · Scaling 0.69 · Content_Creation 0.68 · Offers 0.36 · Marketing 0.15
+  Investing 0.00 · **Operations 0.00**
+Implication: a pure operations/logistics explainer is the WEAKEST thing to cut, even when it is
+the most useful. When the source covers operations, find the STORY or the NUMBER inside it and
+open there. Pricing and money content is the strongest native territory Collier already occupies.
+
+## EXIT
+Unchanged from the table: `punchline_peak` (1.61) > `sentence_end` (1.39). Never
+`cut_before_explanation` (0.35). Note `question` as an EXIT is fine (1.33) — it is only banned
+as an OPEN (0.18).
+
+## Still banned
+- Opening on a literal question (0.18). Rewrite it as the accusation it implies.
+- Motivational framing with no mechanism.
+
+## Facility Coach specifics
+- Never round a number for tidiness — "$25,000", not "about 25 grand".
+- The $25k floor is a brand fact: never let a clip imply the price moves.
+- Preserve trademarked framework names exactly as spoken.
+
+## Collier Buttgen specifics
+- `anecdote` / story openers are in bounds here in a way they are not for Facility Coach.
+  Storytelling carries the highest topic lift (2.66) — the personal brand is where it lives.

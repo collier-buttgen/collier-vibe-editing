@@ -1,0 +1,42 @@
+{
+ "face_x": {
+  "F1_youth-pastor": 945,
+  "F2_significant": 960,
+  "F3_the-bridge": 935,
+  "F4_ten-years-ahead": 1000,
+  "F5_at-the-expense": 1035,
+  "F6_end-in-mind": 1090,
+  "F8_one-offer-paths": 1000
+ },
+ "seg_x": {
+  "F5_at-the-expense": {
+   "0": 950
+  }
+ },
+ "bound": [
+  [
+   "S07_owner-vs-coach",
+   0,
+   "end",
+   1799.28
+  ],
+  [
+   "S12_four-ways",
+   0,
+   "end",
+   2597.6
+  ],
+  [
+   "S02_5k-system",
+   2,
+   "end",
+   998.9
+  ],
+  [
+   "F6_end-in-mind",
+   0,
+   "start",
+   5006.0
+  ]
+ ]
+}
