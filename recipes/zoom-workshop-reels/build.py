@@ -6,7 +6,9 @@ splitA: navy — slide on top, yellow rule, Collier's Zoom tile below, captions 
 splitB: paper — Collier's tile on top, ice rule, slide below, navy captions on white.
 Cuts: part in/out snapped to the waveform; pauses > ~0.45s of real silence tightened to 0.24s.
 Captions: source word stamps mapped through the cut list (no re-transcription), static, 1 line, max 4 words.
-Audio: two-pass loudnorm to -14 LUFS / -1 dBTP.
+Audio: two-pass loudnorm to -14 LUFS / -1 dBTP — the ONLY audio step. No denoise/enhance (house rule).
+Resolution: OUT_W follows the source; never downscale. Captions are authored in 1080x1920 ASS space and
+libass scales them to the output, so no caption changes are needed at 4K.
 """
 import json, os, re, subprocess, sys, math
 import pathlib as _pl, shutil as _sh
@@ -26,6 +28,13 @@ SRC = P + '/source.mp4'
 
 W = json.load(open(P + '/tx/ws.json'))['words']
 RES = json.load(open(P + '/work/resolved.json'))
+
+# Output resolution follows the SOURCE — never downscale (house rule: 4K stays 4K).
+# OUT_W=1080 for a 1080p Zoom recording; OUT_W=2160 for 4K camera footage (→ 2160x3840).
+OUT_W = int(os.environ.get('OUT_W', 1080)); OUT_H = OUT_W * 16 // 9
+_K = OUT_W / 1080
+def _r(n): return int(round(n * _K / 2)) * 2          # scale a 1080-space number, keep it even
+CRF = os.environ.get('CRF', '16')                      # delivery encode (lower = higher quality)
 
 SLIDE = (221, 170, 1419, 767)          # slide page, right edge stops short of the Zoom tile
 THUMB = (1650, 76, 254, 140)           # Collier's Zoom tile during screen share
@@ -109,16 +118,17 @@ def layout(kind, segs, name):
         return "[v]null[out]", None
     tx, ty, tw, th = THUMB; ph = 108; y0 = TILE_Y                   # tile crop 254x108 ≈ 1080x460
     sx, sy, sw, sl = SLIDE
-    face = f"crop={tw}:{ph}:{tx}:{y0},scale=1080:460:flags=lanczos,unsharp=5:5:0.6,setsar=1"
-    slide = f"crop={sw}:{sl}:{sx}:{sy},scale=1080:584:flags=lanczos,setsar=1"
+    face = f"crop={tw}:{ph}:{tx}:{y0},scale={OUT_W}:{_r(460)}:flags=lanczos,unsharp=5:5:0.6,setsar=1"
+    slide = f"crop={sw}:{sl}:{sx}:{sy},scale={OUT_W}:{_r(584)}:flags=lanczos,setsar=1"
     if kind == 'splitA':
         return (f"[v]split[p][q];[p]{slide}[sl];[q]{face}[fc];"
-                f"color=c=0x101726:s=1080x1920:r=30[bg];[bg][sl]overlay=0:300:shortest=1[t1];"
-                f"[t1]drawbox=x=0:y=884:w=1080:h=8:color=0xFFD400:t=fill[t2];[t2][fc]overlay=0:892:shortest=1,setsar=1[out]"), 'A'
+                f"color=c=0x101726:s={OUT_W}x{OUT_H}:r=30[bg];[bg][sl]overlay=0:{_r(300)}:shortest=1[t1];"
+                f"[t1]drawbox=x=0:y={_r(884)}:w={OUT_W}:h={_r(8)}:color=0xFFD400:t=fill[t2];"
+                f"[t2][fc]overlay=0:{_r(892)}:shortest=1,setsar=1[out]"), 'A'
     return (f"[v]split[p][q];[p]{slide}[sl];[q]{face}[fc];"
-            f"color=c=0xF3F5F8:s=1080x1920:r=30[bg];[bg][fc]overlay=0:290:shortest=1[t1];"
-            f"[t1]drawbox=x=0:y=750:w=1080:h=8:color=0x4CC8F0:t=fill[t2];[t2][sl]overlay=0:758:shortest=1,"
-            f"drawbox=x=0:y=1342:w=1080:h=2:color=0xD5DBE3:t=fill,setsar=1[out]"), 'B'
+            f"color=c=0xF3F5F8:s={OUT_W}x{OUT_H}:r=30[bg];[bg][fc]overlay=0:{_r(290)}:shortest=1[t1];"
+            f"[t1]drawbox=x=0:y={_r(750)}:w={OUT_W}:h={_r(8)}:color=0x4CC8F0:t=fill[t2];[t2][sl]overlay=0:{_r(758)}:shortest=1,"
+            f"drawbox=x=0:y={_r(1342)}:w={OUT_W}:h={_r(2)}:color=0xD5DBE3:t=fill,setsar=1[out]"), 'B'
 
 # ---------- captions ----------
 MAXW, GAP_BREAK, HOLD = 4, 0.32, 0.55
@@ -208,14 +218,14 @@ def build(name, kind_i):
         crop = ''
         if kind == 'face':
             x = int(min(max(SEG_X.get(name, {}).get(i, FACE_X[name]) - 276, 80), 1832 - 553))
-            crop = f"crop=553:984:{x}:48,scale=1080:1920:flags=lanczos,"
+            crop = f"crop=553:984:{x}:48,scale={OUT_W}:{OUT_H}:flags=lanczos,"
         fc.append(f"[{i}:v]{crop}setsar=1,fps=30,format=yuv420p[v{i}];[{i}:a]aresample=48000,aformat=channel_layouts=stereo,"
                   f"afade=t=in:d=0.012,afade=t=out:st={e - s - .015:.3f}:d=0.015[a{i}]")
     cat = ''.join(f'[v{i}][a{i}]' for i in range(len(segs))) + f'concat=n={len(segs)}:v=1:a=1[v][a]'
     fcx = ';'.join(fc) + ';' + cat + ';' + lay
     raw = d + '/raw.mov'
     sh([FF, '-y', '-hide_banner', '-loglevel', 'error', *ins, '-filter_complex', fcx, '-map', '[out]', '-map', '[a]',
-        '-c:v', 'libx264', '-crf', '14', '-preset', 'fast', '-c:a', 'pcm_s16le', raw])
+        '-c:v', 'libx264', '-crf', '12', '-preset', 'fast', '-c:a', 'pcm_s16le', raw])
     m = sh([FF, '-hide_banner', '-i', raw, '-af', 'loudnorm=I=-14:TP=-1:LRA=11:print_format=json', '-f', 'null', '-']).stderr
     j = json.loads(m[m.rindex('{'):m.rindex('}') + 1])
     ln = (f"loudnorm=I=-14:TP=-1:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:measured_LRA={j['input_lra']}:"
@@ -223,7 +233,7 @@ def build(name, kind_i):
     ncue, dur = captions(segs, parts, 'face' if kind == 'face' else st, d + '/cap.ass')
     out = P + f'/deliver/{name}.mp4'
     sh([FF, '-y', '-hide_banner', '-loglevel', 'error', '-i', raw, '-vf', f"subtitles={d}/cap.ass:fontsdir={FD}",
-        '-af', ln + ',aresample=48000', '-r', '30', '-c:v', 'libx264', '-crf', '18', '-preset', 'slow', '-profile:v', 'high',
+        '-af', ln + ',aresample=48000', '-r', '30', '-c:v', 'libx264', '-crf', CRF, '-preset', 'slow', '-profile:v', 'high',
         '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-c:a', 'aac', '-b:a', '192k', out])
     json.dump(dict(kind=kind, segs=segs), open(d + '/cutlist.json', 'w'))
     print(f'   {ncue} cues · {dur:.1f}s → deliver/{name}.mp4')

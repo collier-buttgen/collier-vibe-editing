@@ -40,8 +40,34 @@ this file does.
 - At hard cuts, whisper edges drift ±0.2–0.5 s. Split hook/body and find joins by TEXT, then
   confirm by ear (transcribe a snippet up to/from the cut).
 
-## Audio
-- Clean, no music unless asked. Two-pass loudnorm to −14 LUFS, −1 dBTP.
+## Audio — do not touch (set 2026-09-23)
+- Keep the current audio handling exactly as it is: two-pass loudnorm to −14 LUFS / −1 dBTP, nothing else.
+- **No audio processing of any kind**: no Adobe Enhance Speech, no ElevenLabs voice isolation, no
+  denoise or de-reverb. Collier is happy with the audio; don't "improve" it.
+- No music unless asked.
+
+## Quality — never downscale (set 2026-09-23)
+- Everything is filmed in **4K and stays 4K**. Deliver at the source's native resolution: a 3840x2160
+  camera file → **2160x3840** vertical, never a 1080 downscale. Zoom/1080p sources stay 1080x1920 —
+  match the source, never reduce it (upscaling adds nothing, so don't).
+- Encode: H.264 CRF ≤18 (default 16), preset slow, AAC 192k. Intermediates at CRF 12.
+- `recipes/zoom-workshop-reels/build.py` takes `OUT_W` (1080 default, 2160 for 4K source). Captions are
+  authored in 1080x1920 ASS space and libass scales them, so nothing changes at 4K.
+- Compressed previews are for showing progress only — the delivered file is always full quality.
+- **Premiere Pro extension: colour grading only.**
+
+## Delivery to Google Drive (set 2026-09-23)
+Every finished clip goes to `Ready to Post` (`1T9vZhwfwt83jzhJLEMU2_U-5_Tu5cNWd`) automatically:
+| Kind | Folder | ID |
+|---|---|---|
+| Ads | `Ads` | `107Lu-vZkqa4J-wdBEFusU58kHNwRRQHE` |
+| Organic | `Organic Content` | `1XfoE5rWgu36fy62nzjWm03m9r-mKmKBj` |
+
+    rclone copy "<local folder>" "gdrive:<subfolder>" --drive-root-folder-id <id> --exclude ".DS_Store"
+    rclone check "<local folder>" "gdrive:<subfolder>" --drive-root-folder-id <id> --size-only
+
+The `gdrive` remote is authorised on Collier's Mac (2026-09-23). On a new Mac, run
+`rclone config create gdrive drive scope=drive` — it opens a browser for him to approve.
 
 ## Brand
 - Facility Coach = navy `#101726`, ice `#4CC8F0`, yellow `#FFD400`, Poppins. Gold/Bebas is retired.
