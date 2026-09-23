@@ -55,6 +55,10 @@ this file does.
   authored in 1080x1920 ASS space and libass scales them, so nothing changes at 4K.
 - Compressed previews are for showing progress only — the delivered file is always full quality.
 - **Premiere Pro extension: colour grading only.**
+- **Grain:** check footage with `plugins/vibe-editing/tools/denoise.py --detect <file>`; clean it with
+  `denoise.py IN OUT` (auto strength). Keeps resolution and frame rate, copies audio untouched.
+  Measure the SOURCE, not a delivered mp4 — h.264 already smooths flat areas, so encoded files read 0.
+  Reference: the 2026-09-14 camera files (C9821/C9822) score 1.48 = light grain.
 
 ## Delivery to Google Drive (set 2026-09-23)
 Every finished clip goes to `Ready to Post` (`1T9vZhwfwt83jzhJLEMU2_U-5_Tu5cNWd`) automatically:
