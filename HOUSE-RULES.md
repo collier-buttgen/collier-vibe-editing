@@ -60,6 +60,17 @@ this file does.
   Measure the SOURCE, not a delivered mp4 — h.264 already smooths flat areas, so encoded files read 0.
   Reference: the 2026-09-14 camera files (C9821/C9822) score 1.48 = light grain.
 
+## Collier's working flow (set 2026-09-23)
+1. Collier pulls the SD card and runs the audio through **Adobe Podcast himself**, then drops the files
+   into `~/Desktop/Master Content Folder/Clips to Edit/` (names look like `C9845-esv2-50p-bg-m-music-10p.MP4`
+   — enhanced speech + background + music bed already baked in).
+2. Claude edits from there: cut, caption, **colour grade, denoise**, highest quality possible.
+   **Never touch the audio** — it is finished before it reaches us (that is why Adobe is his step, not ours).
+3. Deliver: a per-project folder in `~/Desktop/Master Content Folder/` (videos only, no work files) AND
+   upload to Drive — ads → `Ads`, organic → `Organic Content`.
+`Master Content Folder/Do not post yet/` is Collier's own holding pen — he moves things there on purpose.
+Leave those files alone and never upload them.
+
 ## Delivery to Google Drive (set 2026-09-23)
 Every finished clip goes to `Ready to Post` (`1T9vZhwfwt83jzhJLEMU2_U-5_Tu5cNWd`) automatically:
 | Kind | Folder | ID |
