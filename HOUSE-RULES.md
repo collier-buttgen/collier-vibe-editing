@@ -33,6 +33,18 @@ this file does.
 - Keep words in **spoken order** — never sort by timestamp (whisper stamps can be out of order).
 - libass sizes Poppins ≈0.57× what PIL reports; measure width guards at the libass-true size.
 
+## Cuts & endings — never trust the transcript alone (learned 2026-09-23)
+- **Find pauses in the WAVEFORM** (`silencedetect`), not in whisper word gaps: whisper emits no gap for
+  silence it never transcribed. A clip shipped with 10.6 s of dead air because of this.
+- **`silencedetect` prints at info level — running ffmpeg with `-v error` hides it** and the check passes
+  silently. Same trap for any ffmpeg filter that reports through the log.
+- **Whisper smooths stumbles.** C9842's "And I realized that there was a, I realized that…" came back as one
+  clean phrase in the word-level transcript. Re-transcribe the OUTPUT and fuzzy-match repeated n-grams
+  (exact matching misses "was a" → "was an"); cut the aborted attempt by hand-checked source times.
+- Tighten every silence over ~0.20 s down to ~0.10 s; keep 0.10 s so speech doesn't butt together.
+- Verify a delivered clip against BOTH readings (whole take, and take minus drops) and let the duration
+  gate prove the drop applied — tolerance must scale with the number of cuts (each rounds to a frame).
+
 ## Cuts & endings
 - Clean but never clipping a word. Tighten real silences (>~0.45 s) to ~0.24 s.
 - **Every clip ends on a finished sentence or thought** — never trails into the next words
