@@ -27,6 +27,14 @@ this file does.
 - Screen-share reels are composites (slide + Collier's tile), not crops. Keep the tile out of the
   slide crop so he never appears twice.
 
+## Pacing — cut, then change the framing (set 2026-09-23)
+A talking-head clip with no visual change reads as flat even when the pauses are gone. **Every internal
+cut must also change the crop**: cycle the punch width per segment (e.g. 1180 / 1010 / 1120 / 960 out of
+3840, each scaled back to 1216 wide) so each jump cut lands as a deliberate punch-in.
+Render this per segment and join with the **concat demuxer** — a 15-input filtergraph that also crops
+deadlocks ffmpeg ("Error sending frames to consumers: Operation timed out").
+When Collier says a clip is "flat", ask whether he means grade or pacing before re-grading anything.
+
 ## Look — match the reference ads, and measure it (set 2026-09-23)
 Collier called an early pass "flat". Measured against the reference ads in Drive `Ads/` (skin-tone pixels):
 their spread p10→p90 is ~103 with ~29% saturation; the flat pass was 75 / 20%. Grade that matches:
