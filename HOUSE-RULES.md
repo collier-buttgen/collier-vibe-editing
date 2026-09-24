@@ -27,6 +27,22 @@ this file does.
 - Screen-share reels are composites (slide + Collier's tile), not crops. Keep the tile out of the
   slide crop so he never appears twice.
 
+## Look — match the reference ads, and measure it (set 2026-09-23)
+Collier called an early pass "flat". Measured against the reference ads in Drive `Ads/` (skin-tone pixels):
+their spread p10→p90 is ~103 with ~29% saturation; the flat pass was 75 / 20%. Grade that matches:
+
+    curves=master='0/0 0.25/0.16 0.5/0.48 0.75/0.82 1/1',eq=saturation=1.26:gamma=0.98
+
+Also frame tighter than a full-height crop (punch to ~1120 of 3840 wide, then scale to 1216) — dead space
+around the subject reads as flat too. Re-measure skin spread/saturation against a reference before shipping.
+
+## Captions — Instagram safe zone (set 2026-09-23)
+- **Bottom 20% is IG's no-go zone** (caption, profile, audio row) and the right ~12% is the button rail.
+  Put caption text at ~28–30% up from the bottom — the reference ads sit at 30%. In 1080x1920 ASS space
+  that is `MarginV 540`, with `MarginL/R 120` so centred text clears the right rail.
+- In a boxed/feed layout, lift the picture (overlay y≈380) so captions land below it and still clear the UI.
+- Verify on the render, not in theory: measure where the white text pixels actually land.
+
 ## Captions
 - **No bounce:** no drop-in, no pop, no per-word size change. Static, one line, max 4–5 words.
 - Bigger is better for Reels (he asked twice): ~82–90 px libass size on 1080x1920.
