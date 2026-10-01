@@ -1,5 +1,9 @@
 # House rules — Collier's editing standards
 
+**The production spec for camera batches lives in `recipes/talking-head-batch/README.md`** — two cuts per
+clip (Reels + Feed with the FC logo), 4K out, measured grade/denoise/framing, caption safe zone, and the
+render traps. Follow it; the notes below are the standing principles behind it.
+
 Claude: read this before cutting anything. These are corrections Collier has given in real sessions
 (Aug–Sep 2026). They override the kit's defaults. Claude's memory does not travel between Macs;
 this file does.
