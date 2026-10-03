@@ -31,6 +31,15 @@ this file does.
 - Screen-share reels are composites (slide + Collier's tile), not crops. Keep the tile out of the
   slide crop so he never appears twice.
 
+## Lifting a block from elsewhere in a take (set 2026-10-02)
+Moving a section (e.g. an intro recorded at the END of the take to the front) carries whatever the body
+was doing at that moment. On C9881 the intro's last words land 1.3s before he stands up — the stand-up
+shipped with it. **Check the tail of every lifted block on the PICTURE, not the words**: the audio can end
+well before the body settles.
+Standing check that catches it automatically: sample the render at 2 fps, compare each frame's subject
+region against the median frame, and look at anything in the top 1% by eye. Gestures flag too — look,
+don't just trust the number.
+
 ## Pacing — cut, then change the framing (set 2026-09-23)
 A talking-head clip with no visual change reads as flat even when the pauses are gone. **Every internal
 cut must also change the crop**: cycle the punch width per segment (e.g. 1180 / 1010 / 1120 / 960 out of
