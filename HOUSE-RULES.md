@@ -40,6 +40,19 @@ Standing check that catches it automatically: sample the render at 2 fps, compar
 region against the median frame, and look at anything in the top 1% by eye. Gestures flag too — look,
 don't just trust the number.
 
+## A/V sync — never cut picture and sound separately (set 2026-10-04)
+A re-framing stage that sliced the video into pieces, re-encoded each, then re-muxed the ORIGINAL audio
+drifted progressively: fine at 0s, audibly off by the middle. Each piece's real duration lands a frame off
+from the requested one and the errors accumulate.
+**Rule: every cut must carry its own audio.** Re-frame only at real cuts, where picture and sound are cut
+together. Never apply a visual-only timeline on top of a finished audio track.
+**Check sync ACROSS the file, not at the start**: at ~9 points, transcribe the delivered audio in a 3s
+window and confirm it matches the caption burned at that timestamp. Also compare stream durations
+(`ffprobe -select_streams v:0/a:0 -show_entries stream=duration` — ask for ONE field; parsing a multi-field
+csv by position returns the frame rate, and "pick the biggest number" returns the frame width).
+Don't force pacing: Collier called timer-driven re-framing "dramatic and awkward". Frequency follows the
+speech, not a clock.
+
 ## Pacing — cut, then change the framing (set 2026-09-23)
 A talking-head clip with no visual change reads as flat even when the pauses are gone. **Every internal
 cut must also change the crop**: cycle the punch width per segment (e.g. 1180 / 1010 / 1120 / 960 out of
